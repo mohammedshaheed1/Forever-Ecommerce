@@ -8,7 +8,7 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import path from 'path';
-import { fileURLToPath } from 'url';  // Import to get the file path from the URL
+import { fileURLToPath } from 'url';  // Import to get the path from import.meta.url
 import { dirname } from 'path';       // Import to get the directory name
 
 // App config
