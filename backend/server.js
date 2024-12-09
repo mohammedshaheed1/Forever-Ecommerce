@@ -8,10 +8,16 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import path from 'path';
+import { fileURLToPath } from 'url';  // Import to get the file path from the URL
+import { dirname } from 'path';       // Import to get the directory name
 
 // App config
 const app = express();
 const port = process.env.PORT || 4000;
+
+// Get the current directory path for __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);  // Convert the module URL to file path
+const __dirname = dirname(__filename);              // Get the directory name from the file path
 
 // Middlewares
 app.use(express.json());
