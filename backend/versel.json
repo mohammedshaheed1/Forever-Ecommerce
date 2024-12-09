@@ -1,29 +1,5 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "server.js", 
-        "use": "@vercel/node", 
-        "config": {
-          "includeFiles": [
-            "frontend/dist/**"  
-          ]
-        }
-      },
-      {
-        "src": "frontend/dist/**",
-        "use": "@vercel/static"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)", 
-        "dest": "server.js"
-      },
-      {
-        "src": "/(.*)", 
-        "dest": "frontend/dist/$1"  
-      }
+    "rewrites": [
+      { "source": "/(.*)", "destination": "/" }
     ]
   }
-  
