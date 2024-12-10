@@ -8,8 +8,8 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import path from 'path';
-import { fileURLToPath } from 'url';  // Import to get the path from import.meta.url
-import { dirname } from 'path';       // Import to get the directory name
+import { fileURLToPath } from 'url';  
+import { dirname } from 'path';       
 import fs from 'fs';
 
 // App config
@@ -17,8 +17,8 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 // Get the current directory path for __dirname equivalent
-const __filename = fileURLToPath(import.meta.url);  // Convert the module URL to file path
-const __dirname = dirname(__filename);              // Get the directory name from the file path
+const __filename = fileURLToPath(import.meta.url);  
+const __dirname = dirname(__filename);              
 
 // Middleware setup
 app.use(express.json());
@@ -50,16 +50,16 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 
-// Fallback route for single-page application (SPA)
+
 app.get('*', (req, res) => {
-  // Send the index.html file for any request that isn't API-related
+  
   res.sendFile(path.join(frontendDistPath, 'index.html'));
 });
 
-// Test route
+
 app.get('/', (req, res) => {
   res.send("API is working");
 });
 
-// Start server
+
 app.listen(port, () => console.log('Server started on port :' + port));
