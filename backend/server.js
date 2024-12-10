@@ -10,6 +10,7 @@ import orderRouter from './routes/orderRoute.js';
 import path from 'path';
 import { fileURLToPath } from 'url';  // Import to get the path from import.meta.url
 import { dirname } from 'path';       // Import to get the directory name
+import fs from 'fs';
 
 // App config
 const app = express();
@@ -19,14 +20,29 @@ const port = process.env.PORT || 4000;
 const __filename = fileURLToPath(import.meta.url);  // Convert the module URL to file path
 const __dirname = dirname(__filename);              // Get the directory name from the file path
 
-// Middlewares
+// Middleware setup
 app.use(express.json());
 app.use(cors());
 connectDB();
 connectCloudinary();
 
-// Serve static files from the frontend 'dist' folder
-app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+// Correct path to the frontend/dist folder (outside the backend folder)
+const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
+
+// Log the frontend build folder to help with debugging
+console.log('Serving static files from:', frontendDistPath);
+
+// Check if the 'frontend/dist' folder exists and contains files
+fs.readdir(frontendDistPath, (err, files) => {
+  if (err) {
+    console.error('Error reading frontend dist folder:', err);
+  } else {
+    console.log('Files in frontend/dist:', files);
+  }
+});
+
+// Serve static assets (frontend) for SPA routing
+app.use(express.static(frontendDistPath));
 
 // API endpoints
 app.use('/api/user', userRouter);
@@ -34,9 +50,10 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 
-// Fallback route to serve the index.html for single-page applications (SPA)
+// Fallback route for single-page application (SPA)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  // Send the index.html file for any request that isn't API-related
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
 });
 
 // Test route
