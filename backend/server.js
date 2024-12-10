@@ -29,11 +29,14 @@ connectCloudinary();
 // Correct path to the frontend/dist folder (outside the backend folder)
 const frontendDistPath = path.join(__dirname, 'frontend', 'dist');
 
+// Path to the admin build folder (where you copied the admin files)
+const adminDistPath = path.join(__dirname, 'public', 'admin');
 
-// Log the frontend build folder to help with debugging
-console.log('Serving static files from:', frontendDistPath);
+// Log the paths to help with debugging
+console.log('Serving static files from frontend:', frontendDistPath);
+console.log('Serving static files from admin:', adminDistPath);
 
-// Check if the 'frontend/dist' folder exists and contains files
+// Check if the frontend/dist folder exists and contains files
 fs.readdir(frontendDistPath, (err, files) => {
   if (err) {
     console.error('Error reading frontend dist folder:', err);
@@ -42,8 +45,20 @@ fs.readdir(frontendDistPath, (err, files) => {
   }
 });
 
-// Serve static assets (frontend) for SPA routing
+// Check if the admin folder exists and contains files
+fs.readdir(adminDistPath, (err, files) => {
+  if (err) {
+    console.error('Error reading admin dist folder:', err);
+  } else {
+    console.log('Files in admin folder:', files);
+  }
+});
+
+// Serve static assets for frontend (SPA routing)
 app.use(express.static(frontendDistPath));
+
+// Serve static assets for admin (admin page)
+app.use('/admin', express.static(adminDistPath));
 
 // API endpoints
 app.use('/api/user', userRouter);
@@ -51,16 +66,20 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 
-
+// Catch-all route for frontend and admin to serve the index.html files
 app.get('*', (req, res) => {
-  
-  res.sendFile(path.join(frontendDistPath, 'index.html'));
+  const adminPath = req.url.startsWith('/admin');
+  const indexFile = adminPath
+    ? path.join(adminDistPath, 'index.html')
+    : path.join(frontendDistPath, 'index.html');
+
+  res.sendFile(indexFile);
 });
 
-
+// Simple API health check
 app.get('/', (req, res) => {
   res.send("API is working");
 });
 
-
+// Start the server
 app.listen(port, () => console.log('Server started on port :' + port));
