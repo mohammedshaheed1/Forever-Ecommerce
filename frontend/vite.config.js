@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 5174,
     proxy: {
-      '/api': 'https://forever-ecommerce-ahhk.onrender.com', // Forward /api requests to backend
+      '/api': 'http://localhost:4000', // Forward /api requests to backend
     }
   }
 })

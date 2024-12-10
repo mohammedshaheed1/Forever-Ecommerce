@@ -27,7 +27,8 @@ connectDB();
 connectCloudinary();
 
 // Correct path to the frontend/dist folder (outside the backend folder)
-const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
+const frontendDistPath = path.join(__dirname, 'frontend', 'dist');
+
 
 // Log the frontend build folder to help with debugging
 console.log('Serving static files from:', frontendDistPath);
