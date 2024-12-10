@@ -8,8 +8,8 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import path from 'path';
-import { fileURLToPath } from 'url';  
-import { dirname } from 'path';       
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import fs from 'fs';
 
 // App config
@@ -17,8 +17,8 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 // Get the current directory path for __dirname equivalent
-const __filename = fileURLToPath(import.meta.url);  
-const __dirname = dirname(__filename);              
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Middleware setup
 app.use(express.json());
@@ -26,13 +26,11 @@ app.use(cors());
 connectDB();
 connectCloudinary();
 
-// Correct path to the frontend/dist folder (outside the backend folder)
-const frontendDistPath = path.join(__dirname, 'frontend', 'dist');
+// Paths for frontend and admin static files
+const frontendDistPath = path.resolve(__dirname, 'frontend', 'dist');
+const adminDistPath = path.resolve(__dirname, 'public', 'admin');
 
-// Path to the admin build folder (where you copied the admin files)
-const adminDistPath = path.join(__dirname, 'public', 'admin');
-
-// Log the paths to help with debugging
+// Log the paths for debugging
 console.log('Serving static files from frontend:', frontendDistPath);
 console.log('Serving static files from admin:', adminDistPath);
 
@@ -60,7 +58,7 @@ app.use(express.static(frontendDistPath));
 // Serve static assets for admin (admin page)
 app.use('/admin', express.static(adminDistPath));
 
-// API endpoints
+// API routes
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
@@ -73,12 +71,18 @@ app.get('*', (req, res) => {
     ? path.join(adminDistPath, 'index.html')
     : path.join(frontendDistPath, 'index.html');
 
-  res.sendFile(indexFile);
+  // Send the corresponding index.html file
+  res.sendFile(indexFile, (err) => {
+    if (err) {
+      console.error('Error serving file:', err);
+      res.status(500).send('Something went wrong');
+    }
+  });
 });
 
 // Simple API health check
 app.get('/', (req, res) => {
-  res.send("API is working");
+  res.send('API is working');
 });
 
 // Start the server
