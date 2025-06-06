@@ -22,7 +22,10 @@ const __dirname = dirname(__filename);
 
 // Middleware setup
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://forever-ecommerce-ahhk.onrender.com",
+  credentials: true
+}));
 connectDB();
 connectCloudinary();
 
