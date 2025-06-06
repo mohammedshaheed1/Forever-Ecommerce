@@ -11,5 +11,8 @@ export default defineConfig({
   base: '/admin/',  // Ensure that the app knows it's being served from /admin/
   server: {
     port: 5175, // Port for the dev server (not needed in production)
+     proxy: {
+      '/api': 'https://forever-frontend-hvhf.onrender.com', // Forward /api requests to backend
+    }
   },
 });
