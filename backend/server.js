@@ -64,6 +64,11 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 
+// Simple API health check
+app.get('/', (req, res) => {
+  res.send('API is working');
+});
+
 // Catch-all route for frontend and admin to serve the index.html files
 app.get('*', (req, res) => {
   const adminPath = req.url.startsWith('/admin');
@@ -78,11 +83,6 @@ app.get('*', (req, res) => {
       res.status(500).send('Something went wrong');
     }
   });
-});
-
-// Simple API health check
-app.get('/', (req, res) => {
-  res.send('API is working');
 });
 
 // Start the server
