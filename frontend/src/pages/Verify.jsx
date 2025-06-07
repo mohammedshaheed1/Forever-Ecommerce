@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import api from '../utils/axiosInstance'
 
 const Verify = () => {
 
@@ -16,7 +17,7 @@ const Verify = () => {
           if(!token){
              return null
           }
-          const response=await axios.post('/api/order/verifyStripe',{success,orderId},{headers:{token}})
+          const response=await api.post('/api/order/verifyStripe',{success,orderId},{headers:{token}})
           if(response.data.success){
             setCartItems({})
             navigate('/orders')

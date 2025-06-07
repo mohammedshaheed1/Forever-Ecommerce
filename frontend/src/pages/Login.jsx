@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import api from '../utils/axiosInstance';
 
 const Login = () => {
 
@@ -16,7 +17,7 @@ const Login = () => {
         try{
            
             if(currentState === 'Sign Up'){
-                  const response = await axios.post('/api/user/register',{name,email,password})
+                  const response = await api.post('/api/user/register',{name,email,password})
                   if(response.data.success){
                     setToken(response.data.token)
                     localStorage.setItem('token',response.data.token)
@@ -24,7 +25,7 @@ const Login = () => {
                     toast.error(response.data.message)
                   }
             }else{
-               const response = await axios.post('/api/user/login',{email,password})
+               const response = await api.post('/api/user/login',{email,password})
                if(response.data.success){
                     setToken(response.data.token)
                     localStorage.setItem('token',response.data.token)

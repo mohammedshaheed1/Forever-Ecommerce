@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import Title from '../components/Title';
 import axios from 'axios';
+import api from '../utils/axiosInstance';
 
 
 const Orders = () => {
@@ -15,7 +16,7 @@ const Orders = () => {
           return null
         }
 
-        const response=await axios.post('/api/order/userorders',{},{headers:{token}})
+        const response=await api.post('/api/order/userorders',{},{headers:{token}})
         if(response.data.success){
           let allOrdersItem=[]
           response.data.orders.map((order)=>{
