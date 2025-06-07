@@ -22,10 +22,7 @@ const __dirname = dirname(__filename);
 
 // Middleware setup
 app.use(express.json());
-app.use(cors({
-  origin:true,
-  credentials:true
-}));
+app.use(cors({ origin: '*', credentials: true }));
 connectDB();
 connectCloudinary();
 
