@@ -7,6 +7,7 @@ import { ShopContext } from '../context/ShopContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { currency } from '../../../admin/src/App'
+import api from '../../src/utils/axiosInstance';
 
 const PlaceOrder = () => {
 
@@ -83,7 +84,7 @@ const PlaceOrder = () => {
       switch (method) {
         //APi call for cod
         case 'cod':
-          const response = await axios.post('/api/order/place', orderData, { headers: { token } })
+          const response = await api.post('/api/order/place', orderData, { headers: { token } })
           if (response.data.success) {
             setCartItems({})
             navigate('/orders')
@@ -93,7 +94,7 @@ const PlaceOrder = () => {
           break;
 
         case 'stripe':
-          const responseStripe=await axios.post('/api/order/stripe',orderData,{headers:{token}})
+          const responseStripe=await api.post('/api/order/stripe',orderData,{headers:{token}})
           if(responseStripe.data.success){
             const {session_url}=responseStripe.data;
             window.location.replace(session_url)
@@ -103,7 +104,7 @@ const PlaceOrder = () => {
           break;
 
         case 'razorpay':
-          const responseRazorpay=await axios.post('/api/order/razorpay',orderData,{headers:{token}})
+          const responseRazorpay=await api.post('/api/order/razorpay',orderData,{headers:{token}})
           if(responseRazorpay.data.success){
              initPay(responseRazorpay.data.order)
           }
