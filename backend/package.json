@@ -5,10 +5,12 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "npm run build && node server.js",
-    "build": "cd ../frontend && npm install && npm run build",
-    "server": "nodemon server.js"
-  },
+  "start": "npm run build && dotenv -e .env node server.js",
+  "build": "cd ../frontend && dotenv -e .env npm install && dotenv -e .env npm run build && cd ../admin && dotenv -e .env npm install && dotenv -e .env npm run build",
+  "server": "nodemon server.js"
+},
+
+
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -24,5 +26,8 @@
     "razorpay": "^2.9.5",
     "stripe": "^17.4.0",
     "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^8.0.0"
   }
 }
