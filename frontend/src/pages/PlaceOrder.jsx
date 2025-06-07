@@ -80,12 +80,11 @@ const PlaceOrder = () => {
         items: orderItems,
         amount: getCartAmount() + delivery_fee
       }
-      console.log("method",method)
+
       switch (method) {
         //APi call for cod
         case 'cod':
-           console.log("method1",method)
-          const response = await api.post('/api/order/place', orderData, { headers: { token } })
+          const response = await axios.post('/api/order/place', orderData, { headers: { token } })
           if (response.data.success) {
             setCartItems({})
             navigate('/orders')
@@ -95,22 +94,17 @@ const PlaceOrder = () => {
           break;
 
         case 'stripe':
-          console.log("method2",method)
-          // const responseStripe=await api.post('/api/order/place',orderData,{headers:{token}})
-          const responseStripe = await axios.post('https://forever-ecommerce-ahhk.onrender.com/api/order/place', orderData, { headers: { token } })
+          const responseStripe=await axios.post('/api/order/stripe',orderData,{headers:{token}})
           if(responseStripe.data.success){
-            // const {session_url}=responseStripe.data;
-            // window.location.replace(session_url)
-             setCartItems({})
-            navigate('/orders')
+            const {session_url}=responseStripe.data;
+            window.location.replace(session_url)
           }else{
             toast.error(responseStripe.data.message)
           }
           break;
 
         case 'razorpay':
-           console.log("method3",method)
-          const responseRazorpay=await api.post('/api/order/razorpay',orderData,{headers:{token}})
+          const responseRazorpay=await axios.post('/api/order/razorpay',orderData,{headers:{token}})
           if(responseRazorpay.data.success){
              initPay(responseRazorpay.data.order)
           }
