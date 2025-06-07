@@ -96,7 +96,8 @@ const PlaceOrder = () => {
 
         case 'stripe':
           console.log("method2",method)
-          const responseStripe=await api.post('/api/order/place',orderData,{headers:{token}})
+          // const responseStripe=await api.post('/api/order/place',orderData,{headers:{token}})
+          const responseStripe = await axios.post('https://forever-ecommerce-ahhk.onrender.com/api/order/place', orderData, { headers: { token } })
           if(responseStripe.data.success){
             // const {session_url}=responseStripe.data;
             // window.location.replace(session_url)
