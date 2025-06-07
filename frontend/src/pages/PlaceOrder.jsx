@@ -111,7 +111,7 @@ const PlaceOrder = () => {
           break;
 
         default:
-
+          console.log("No matching payment method");
           break;
       }
     } catch (error) {
