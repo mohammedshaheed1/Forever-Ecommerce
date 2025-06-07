@@ -98,8 +98,10 @@ const PlaceOrder = () => {
           console.log("method2",method)
           const responseStripe=await api.post('/api/order/place',orderData,{headers:{token}})
           if(responseStripe.data.success){
-            const {session_url}=responseStripe.data;
-            window.location.replace(session_url)
+            // const {session_url}=responseStripe.data;
+            // window.location.replace(session_url)
+             setCartItems({})
+            navigate('/orders')
           }else{
             toast.error(responseStripe.data.message)
           }
