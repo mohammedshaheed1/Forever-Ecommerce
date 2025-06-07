@@ -80,10 +80,11 @@ const PlaceOrder = () => {
         items: orderItems,
         amount: getCartAmount() + delivery_fee
       }
-
+      console.log("method",method)
       switch (method) {
         //APi call for cod
         case 'cod':
+           console.log("method1",method)
           const response = await api.post('/api/order/place', orderData, { headers: { token } })
           if (response.data.success) {
             setCartItems({})
@@ -94,7 +95,8 @@ const PlaceOrder = () => {
           break;
 
         case 'stripe':
-          const responseStripe=await api.post('/api/order/stripe',orderData,{headers:{token}})
+          console.log("method2",method)
+          const responseStripe=await api.post('/api/order/place',orderData,{headers:{token}})
           if(responseStripe.data.success){
             const {session_url}=responseStripe.data;
             window.location.replace(session_url)
@@ -104,6 +106,7 @@ const PlaceOrder = () => {
           break;
 
         case 'razorpay':
+           console.log("method3",method)
           const responseRazorpay=await api.post('/api/order/razorpay',orderData,{headers:{token}})
           if(responseRazorpay.data.success){
              initPay(responseRazorpay.data.order)
